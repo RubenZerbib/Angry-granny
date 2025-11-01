@@ -1,0 +1,186 @@
+{
+  "ClassName": "Model",
+  "Name": "DiningRoom_A",
+  "Children": [
+    {
+      "ClassName": "Part",
+      "Name": "DiningRoom_Floor",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          14,
+          0.5,
+          12
+        ],
+        "Position": [
+          20,
+          0,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.396078431372549,
+          "G": 0.2627450980392157,
+          "B": 0.12941176470588237
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "DiningRoom_Ceiling",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          14,
+          0.5,
+          12
+        ],
+        "Position": [
+          20,
+          10.0,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.34901960784313724,
+          "G": 0.2196078431372549,
+          "B": 0.09803921568627451
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "North_Wall",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Brick",
+        "Size": [
+          14,
+          10.0,
+          0.5
+        ],
+        "Position": [
+          20,
+          5.0,
+          -6.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.5411764705882353,
+          "G": 0.5411764705882353,
+          "B": 0.5411764705882353
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "South_Wall",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Brick",
+        "Size": [
+          14,
+          10.0,
+          0.5
+        ],
+        "Position": [
+          20,
+          5.0,
+          6.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.5411764705882353,
+          "G": 0.5411764705882353,
+          "B": 0.5411764705882353
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "East_Wall",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Brick",
+        "Size": [
+          12,
+          10.0,
+          0.5
+        ],
+        "Position": [
+          27.0,
+          5.0,
+          0
+        ],
+        "Orientation": [
+          0,
+          90,
+          0
+        ],
+        "Color": {
+          "R": 0.5411764705882353,
+          "G": 0.5411764705882353,
+          "B": 0.5411764705882353
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "West_Wall",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Brick",
+        "Size": [
+          12,
+          10.0,
+          0.5
+        ],
+        "Position": [
+          13.0,
+          5.0,
+          0
+        ],
+        "Orientation": [
+          0,
+          90,
+          0
+        ],
+        "Color": {
+          "R": 0.5411764705882353,
+          "G": 0.5411764705882353,
+          "B": 0.5411764705882353
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,945 @@
+{
+  "ClassName": "Model",
+  "Name": "Manor_A",
+  "Children": [
+    {
+      "ClassName": "Part",
+      "Name": "PlayerSpawn",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          0,
+          6,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "GrannySpawn",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          0,
+          -4,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "EscapeExit",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          0,
+          1,
+          17
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "FuseBox",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          -9,
+          -7,
+          -7
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Generator",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          15,
+          0,
+          20
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "PatrolPoint_1",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          0,
+          3,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "PatrolPoint_2",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          -15,
+          3,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "PatrolPoint_3",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          -20,
+          3,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "PatrolPoint_4",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          -20,
+          3,
+          -10
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "PatrolPoint_5",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          0,
+          3,
+          -20
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "PatrolPoint_6",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          10,
+          5,
+          -20
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "PatrolPoint_7",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          10,
+          15,
+          -25
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "PatrolPoint_8",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          -15,
+          15,
+          -30
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "PatrolPoint_9",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          15,
+          15,
+          -30
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "PatrolPoint_10",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          0,
+          15,
+          -40
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "PatrolPoint_11",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          10,
+          5,
+          -20
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "PatrolPoint_12",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          0,
+          3,
+          -10
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "KeySpawn_1",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          0,
+          5,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "KeyId": "key_1"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "KeySpawn_2",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          0,
+          3,
+          15
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "KeyId": "key_2"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "KeySpawn_3",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          0,
+          17,
+          -40
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "KeyId": "key_3"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "KeySpawn_4",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          20,
+          5,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "KeyId": "key_4"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "KeySpawn_5",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          0,
+          -5,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "KeyId": "key_5"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "KeySpawn_6",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          -15,
+          17,
+          -30
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "KeyId": "key_6"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "HidingSpot_1",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          17.5,
+          13,
+          -32.5
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "FurnitureType": "Bed"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "HidingSpot_2",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          -12.5,
+          13,
+          -32.5
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "FurnitureType": "Bed"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "HidingSpot_3",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          12.5,
+          13,
+          -27.5
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "FurnitureType": "Wardrobe"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "HidingSpot_4",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          -17.5,
+          13,
+          -27.5
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "FurnitureType": "Wardrobe"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "NoiseZone_Kitchen",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          -20,
+          3,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "NoiseRadius": 15
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "NoiseZone_Corridors",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          0,
+          3,
+          -20
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "NoiseRadius": 15
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "NoiseZone_Stairs",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": false,
+        "Transparency": 1.0,
+        "Material": "Neon",
+        "Size": [
+          1,
+          1,
+          1
+        ],
+        "Position": [
+          10,
+          5,
+          -20
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.6392156862745098,
+          "G": 0.6352941176470588,
+          "B": 0.6470588235294118
+        }
+      },
+      "Attributes": {
+        "NoiseRadius": 15
+      }
+    }
+  ]
+}

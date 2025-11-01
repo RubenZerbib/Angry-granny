@@ -1,0 +1,12 @@
+{
+  "name": "AngryGrannyManor",
+  "tree": {
+    "$className": "DataModel",
+    "Workspace": {
+      "$className": "Workspace",
+      "Manor": {
+        "$path": "Manor"
+      }
+    }
+  }
+}

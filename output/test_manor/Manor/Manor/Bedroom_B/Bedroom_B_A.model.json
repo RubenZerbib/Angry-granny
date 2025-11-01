@@ -1,0 +1,216 @@
+{
+  "ClassName": "Model",
+  "Name": "Bedroom_B_A",
+  "Children": [
+    {
+      "ClassName": "Part",
+      "Name": "Bedroom_B_Floor",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          10.0,
+          0.5,
+          12.0
+        ],
+        "Position": [
+          15,
+          12,
+          -30
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.396078431372549,
+          "G": 0.2627450980392157,
+          "B": 0.12941176470588237
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Bedroom_B_Ceiling",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          10.0,
+          0.5,
+          12.0
+        ],
+        "Position": [
+          15,
+          22.0,
+          -30
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.34901960784313724,
+          "G": 0.2196078431372549,
+          "B": 0.09803921568627451
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "North_Wall",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Brick",
+        "Size": [
+          10.0,
+          10.0,
+          0.5
+        ],
+        "Position": [
+          15,
+          17.0,
+          -36.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.5411764705882353,
+          "G": 0.5411764705882353,
+          "B": 0.5411764705882353
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "South_Wall",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Brick",
+        "Size": [
+          10.0,
+          10.0,
+          0.5
+        ],
+        "Position": [
+          15,
+          17.0,
+          -24.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.5411764705882353,
+          "G": 0.5411764705882353,
+          "B": 0.5411764705882353
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "East_Wall",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Brick",
+        "Size": [
+          12.0,
+          10.0,
+          0.5
+        ],
+        "Position": [
+          20.0,
+          17.0,
+          -30
+        ],
+        "Orientation": [
+          0,
+          90,
+          0
+        ],
+        "Color": {
+          "R": 0.5411764705882353,
+          "G": 0.5411764705882353,
+          "B": 0.5411764705882353
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "West_Wall",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Brick",
+        "Size": [
+          12.0,
+          10.0,
+          0.5
+        ],
+        "Position": [
+          10.0,
+          17.0,
+          -30
+        ],
+        "Orientation": [
+          0,
+          90,
+          0
+        ],
+        "Color": {
+          "R": 0.5411764705882353,
+          "G": 0.5411764705882353,
+          "B": 0.5411764705882353
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Bedroom_B_Window",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.5,
+        "Material": "Glass",
+        "Size": [
+          3.0,
+          4.0,
+          0.2
+        ],
+        "Position": [
+          15,
+          17.0,
+          -24.2
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.7843137254901961,
+          "G": 0.8627450980392157,
+          "B": 1.0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,366 @@
+{
+  "ClassName": "Model",
+  "Name": "Stairs_A",
+  "Children": [
+    {
+      "ClassName": "Part",
+      "Name": "Step_1",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          4.0,
+          1.0,
+          1.0
+        ],
+        "Position": [
+          10,
+          0.0,
+          -20.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.35294117647058826,
+          "G": 0.23529411764705882,
+          "B": 0.11764705882352941
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Step_2",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          4.0,
+          1.0,
+          1.0
+        ],
+        "Position": [
+          10,
+          1.0,
+          -19.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.35294117647058826,
+          "G": 0.23529411764705882,
+          "B": 0.11764705882352941
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Step_3",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          4.0,
+          1.0,
+          1.0
+        ],
+        "Position": [
+          10,
+          2.0,
+          -18.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.35294117647058826,
+          "G": 0.23529411764705882,
+          "B": 0.11764705882352941
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Step_4",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          4.0,
+          1.0,
+          1.0
+        ],
+        "Position": [
+          10,
+          3.0,
+          -17.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.35294117647058826,
+          "G": 0.23529411764705882,
+          "B": 0.11764705882352941
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Step_5",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          4.0,
+          1.0,
+          1.0
+        ],
+        "Position": [
+          10,
+          4.0,
+          -16.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.35294117647058826,
+          "G": 0.23529411764705882,
+          "B": 0.11764705882352941
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Step_6",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          4.0,
+          1.0,
+          1.0
+        ],
+        "Position": [
+          10,
+          5.0,
+          -15.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.35294117647058826,
+          "G": 0.23529411764705882,
+          "B": 0.11764705882352941
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Step_7",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          4.0,
+          1.0,
+          1.0
+        ],
+        "Position": [
+          10,
+          6.0,
+          -14.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.35294117647058826,
+          "G": 0.23529411764705882,
+          "B": 0.11764705882352941
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Step_8",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          4.0,
+          1.0,
+          1.0
+        ],
+        "Position": [
+          10,
+          7.0,
+          -13.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.35294117647058826,
+          "G": 0.23529411764705882,
+          "B": 0.11764705882352941
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Step_9",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          4.0,
+          1.0,
+          1.0
+        ],
+        "Position": [
+          10,
+          8.0,
+          -12.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.35294117647058826,
+          "G": 0.23529411764705882,
+          "B": 0.11764705882352941
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Step_10",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          4.0,
+          1.0,
+          1.0
+        ],
+        "Position": [
+          10,
+          9.0,
+          -11.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.35294117647058826,
+          "G": 0.23529411764705882,
+          "B": 0.11764705882352941
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Step_11",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          4.0,
+          1.0,
+          1.0
+        ],
+        "Position": [
+          10,
+          10.0,
+          -10.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.35294117647058826,
+          "G": 0.23529411764705882,
+          "B": 0.11764705882352941
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Step_12",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          4.0,
+          1.0,
+          1.0
+        ],
+        "Position": [
+          10,
+          11.0,
+          -9.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.35294117647058826,
+          "G": 0.23529411764705882,
+          "B": 0.11764705882352941
+        }
+      }
+    }
+  ]
+}

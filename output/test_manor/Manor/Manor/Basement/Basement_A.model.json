@@ -1,0 +1,186 @@
+{
+  "ClassName": "Model",
+  "Name": "Basement_A",
+  "Children": [
+    {
+      "ClassName": "Part",
+      "Name": "Basement_Floor",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Concrete",
+        "Size": [
+          20.0,
+          0.5,
+          16.0
+        ],
+        "Position": [
+          0,
+          -10,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.3137254901960784,
+          "G": 0.3137254901960784,
+          "B": 0.3137254901960784
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Basement_Ceiling",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          20.0,
+          0.5,
+          16.0
+        ],
+        "Position": [
+          0,
+          -2.0,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.34901960784313724,
+          "G": 0.2196078431372549,
+          "B": 0.09803921568627451
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "North_Wall",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Concrete",
+        "Size": [
+          20.0,
+          8.0,
+          0.5
+        ],
+        "Position": [
+          0,
+          -6.0,
+          -8.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.27450980392156865,
+          "G": 0.27450980392156865,
+          "B": 0.27450980392156865
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "South_Wall",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Concrete",
+        "Size": [
+          20.0,
+          8.0,
+          0.5
+        ],
+        "Position": [
+          0,
+          -6.0,
+          8.0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.27450980392156865,
+          "G": 0.27450980392156865,
+          "B": 0.27450980392156865
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "East_Wall",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Concrete",
+        "Size": [
+          16.0,
+          8.0,
+          0.5
+        ],
+        "Position": [
+          10.0,
+          -6.0,
+          0
+        ],
+        "Orientation": [
+          0,
+          90,
+          0
+        ],
+        "Color": {
+          "R": 0.27450980392156865,
+          "G": 0.27450980392156865,
+          "B": 0.27450980392156865
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "West_Wall",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Concrete",
+        "Size": [
+          16.0,
+          8.0,
+          0.5
+        ],
+        "Position": [
+          -10.0,
+          -6.0,
+          0
+        ],
+        "Orientation": [
+          0,
+          90,
+          0
+        ],
+        "Color": {
+          "R": 0.27450980392156865,
+          "G": 0.27450980392156865,
+          "B": 0.27450980392156865
+        }
+      }
+    }
+  ]
+}

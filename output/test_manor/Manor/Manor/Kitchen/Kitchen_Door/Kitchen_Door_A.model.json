@@ -1,0 +1,101 @@
+{
+  "ClassName": "Model",
+  "Name": "Kitchen_Door_A",
+  "Children": [
+    {
+      "ClassName": "Part",
+      "Name": "Door",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          3.5,
+          6.0,
+          0.3
+        ],
+        "Position": [
+          -25.5,
+          3.25,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.27450980392156865,
+          "G": 0.17647058823529413,
+          "B": 0.0784313725490196
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Hinge",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Metal",
+        "Size": [
+          0.2,
+          6.0,
+          0.2
+        ],
+        "Position": [
+          -27.5,
+          3.25,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.20392156862745098,
+          "G": 0.20392156862745098,
+          "B": 0.20392156862745098
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Handle",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "Metal",
+        "Size": [
+          0.8,
+          0.3,
+          0.2
+        ],
+        "Position": [
+          -24.5,
+          3.25,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.8313725490196079,
+          "G": 0.6862745098039216,
+          "B": 0.21568627450980393
+        }
+      },
+      "Attributes": {
+        "InteractType": "Door",
+        "Locked": false,
+        "KeyId": ""
+      }
+    }
+  ]
+}

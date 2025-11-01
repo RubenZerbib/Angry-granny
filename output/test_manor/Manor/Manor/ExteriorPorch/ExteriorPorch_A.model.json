@@ -1,0 +1,36 @@
+{
+  "ClassName": "Model",
+  "Name": "ExteriorPorch_A",
+  "Children": [
+    {
+      "ClassName": "Part",
+      "Name": "Porch_Floor",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          16,
+          0.5,
+          4
+        ],
+        "Position": [
+          0,
+          0,
+          15
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.396078431372549,
+          "G": 0.2627450980392157,
+          "B": 0.12941176470588237
+        }
+      }
+    }
+  ]
+}

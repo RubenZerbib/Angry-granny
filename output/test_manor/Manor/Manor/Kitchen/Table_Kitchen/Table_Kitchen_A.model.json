@@ -1,0 +1,156 @@
+{
+  "ClassName": "Model",
+  "Name": "Table_Kitchen_A",
+  "Children": [
+    {
+      "ClassName": "Part",
+      "Name": "Top",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          6.0,
+          0.3,
+          3.0
+        ],
+        "Position": [
+          -20,
+          2.5,
+          0
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.3137254901960784,
+          "G": 0.19607843137254902,
+          "B": 0.09803921568627451
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Leg_1",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          0.4,
+          2.5,
+          0.4
+        ],
+        "Position": [
+          -22.5,
+          0,
+          -1.2
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.3137254901960784,
+          "G": 0.19607843137254902,
+          "B": 0.09803921568627451
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Leg_2",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          0.4,
+          2.5,
+          0.4
+        ],
+        "Position": [
+          -17.5,
+          0,
+          -1.2
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.3137254901960784,
+          "G": 0.19607843137254902,
+          "B": 0.09803921568627451
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Leg_3",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          0.4,
+          2.5,
+          0.4
+        ],
+        "Position": [
+          -22.5,
+          0,
+          1.2
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.3137254901960784,
+          "G": 0.19607843137254902,
+          "B": 0.09803921568627451
+        }
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Leg_4",
+      "Properties": {
+        "Anchored": true,
+        "CanCollide": true,
+        "Transparency": 0.0,
+        "Material": "WoodPlanks",
+        "Size": [
+          0.4,
+          2.5,
+          0.4
+        ],
+        "Position": [
+          -17.5,
+          0,
+          1.2
+        ],
+        "Orientation": [
+          0,
+          0,
+          0
+        ],
+        "Color": {
+          "R": 0.3137254901960784,
+          "G": 0.19607843137254902,
+          "B": 0.09803921568627451
+        }
+      }
+    }
+  ]
+}
