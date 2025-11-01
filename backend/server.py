@@ -96,6 +96,98 @@ async def get_status_checks():
     
     return status_checks
 
+# Manor Generator Endpoints
+@api_router.post("/manor/generate", response_model=ManorGenerateResponse)
+async def generate_manor(config: ManorConfigRequest):
+    """Generate a Roblox manor with the given configuration"""
+    try:
+        # Convert request to ManorConfig
+        manor_config = ManorConfig(**config.model_dump())
+        
+        # Generate manor
+        generator = ManorGenerator(manor_config)
+        manor = generator.generate()
+        
+        # Validate
+        is_valid, errors = manor.validate()
+        
+        # Create output directory
+        output_dir = ROOT_DIR.parent / "output" / "manor_exports"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Export to both formats
+        manor_id = str(uuid.uuid4())[:8]
+        
+        # Export RBXMX
+        rbxmx_exporter = RBXMXExporter(manor)
+        rbxmx_file = output_dir / f"Manor_{manor_id}.rbxmx"
+        rbxmx_exporter.export(str(rbxmx_file))
+        
+        # Export Rojo
+        rojo_exporter = RojoExporter(manor)
+        rojo_dir = output_dir / f"Manor_{manor_id}_Rojo"
+        rojo_exporter.export(str(rojo_dir))
+        
+        return ManorGenerateResponse(
+            success=is_valid,
+            statistics=manor.statistics,
+            errors=errors,
+            download_urls={
+                "rbxmx": f"/api/manor/download/rbxmx/{manor_id}",
+                "rojo": f"/api/manor/download/rojo/{manor_id}"
+            }
+        )
+    except Exception as e:
+        logger.error(f"Manor generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/manor/download/rbxmx/{manor_id}")
+async def download_rbxmx(manor_id: str):
+    """Download the generated RBXMX file"""
+    file_path = ROOT_DIR.parent / "output" / "manor_exports" / f"Manor_{manor_id}.rbxmx"
+    
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="Manor file not found")
+    
+    return FileResponse(
+        path=str(file_path),
+        filename=f"Manor_{manor_id}.rbxmx",
+        media_type="application/xml"
+    )
+
+@api_router.get("/manor/preview")
+async def get_manor_preview(
+    include_basement: bool = True,
+    include_attic: bool = True,
+    include_secret_passage: bool = True,
+    scale_factor: float = 1.0,
+    prop_density: float = 0.5
+):
+    """Get a preview of manor statistics without generating files"""
+    try:
+        config = ManorConfig(
+            include_basement=include_basement,
+            include_attic=include_attic,
+            include_secret_passage=include_secret_passage,
+            scale_factor=scale_factor,
+            prop_density=prop_density
+        )
+        
+        generator = ManorGenerator(config)
+        manor = generator.generate()
+        
+        is_valid, errors = manor.validate()
+        
+        return {
+            "valid": is_valid,
+            "statistics": manor.statistics,
+            "errors": errors,
+            "config": config.__dict__
+        }
+    except Exception as e:
+        logger.error(f"Manor preview error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
