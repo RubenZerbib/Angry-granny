@@ -44,6 +44,29 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+# Manor Generator Models
+class ManorConfigRequest(BaseModel):
+    include_basement: bool = True
+    include_attic: bool = True
+    include_secret_passage: bool = True
+    scale_factor: float = 1.0
+    ceiling_height: float = 10.0
+    corridor_width: float = 4.0
+    prop_density: float = 0.5
+    light_count: int = 20
+    patrol_point_count: int = 12
+    key_spawn_count: int = 6
+    hiding_spot_count: int = 8
+    max_parts: int = 6000
+    dark_mode: bool = True
+    victorian_style: bool = True
+
+class ManorGenerateResponse(BaseModel):
+    success: bool
+    statistics: dict
+    errors: List[str] = []
+    download_urls: dict = {}
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
