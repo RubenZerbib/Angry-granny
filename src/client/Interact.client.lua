@@ -1,99 +1,82 @@
 --!strict
--- Syst?me d'interaction : raycast + touche E
+-- Client interaction system using ProximityPrompts
 
-local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-local PlayerAction = ReplicatedStorage.Remotes.PlayerAction
+local ProximityPromptService = game:GetService("ProximityPromptService")
 
 local player = Players.LocalPlayer
-local mouse = player:GetMouse()
+local PlayerActionRemote = ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("PlayerAction")
 
-local currentTarget: Instance? = nil
-local lastInteractionTime = 0
-local interactionCooldown = 0.25 -- secondes
-
--- UI d'interaction
-local playerGui = player:WaitForChild("PlayerGui")
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "InteractUI"
-screenGui.ResetOnSpawn = false
-screenGui.Parent = playerGui
-
-local promptLabel = Instance.new("TextLabel")
-promptLabel.Name = "Prompt"
-promptLabel.Size = UDim2.new(0, 300, 0, 50)
-promptLabel.Position = UDim2.new(0.5, -150, 0.7, 0)
-promptLabel.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-promptLabel.BackgroundTransparency = 0.3
-promptLabel.BorderSizePixel = 2
-promptLabel.BorderColor3 = Color3.fromRGB(255, 255, 255)
-promptLabel.Text = "[E] Interagir"
-promptLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-promptLabel.TextScaled = true
-promptLabel.Font = Enum.Font.GothamBold
-promptLabel.Visible = false
-promptLabel.Parent = screenGui
-
--- Raycast en continu
-task.spawn(function()
-	while true do
-		task.wait(0.1)
-
-		local character = player.Character
-		if not character then
-			continue
-		end
-
-		local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-		if not humanoidRootPart or not humanoidRootPart:IsA("BasePart") then
-			continue
-		end
-
-		local origin = humanoidRootPart.Position
-		local direction = humanoidRootPart.CFrame.LookVector * 16
-
-		local raycastParams = RaycastParams.new()
-		raycastParams.FilterDescendantsInstances = { character }
-		raycastParams.FilterType = Enum.RaycastFilterType.Exclude
-
-		local result = workspace:Raycast(origin, direction, raycastParams)
-
-		if result and result.Instance:HasTag("Interactable") then
-			currentTarget = result.Instance
-			promptLabel.Visible = true
-		else
-			currentTarget = nil
-			promptLabel.Visible = false
-		end
-	end
-end)
-
--- ?couter la touche E
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-	if gameProcessed then
+-- Handle all ProximityPrompt interactions
+ProximityPromptService.PromptTriggered:Connect(function(prompt, playerWhoTriggered)
+	if playerWhoTriggered ~= player then return end
+	
+	local object = prompt.Parent
+	if not object then return end
+	
+	-- Find the model or part that has the event data
+	local interactable = findInteractable(object)
+	if not interactable then return end
+	
+	local eventId = interactable:GetAttribute("EventId")
+	local eventType = interactable:GetAttribute("EventType")
+	local isCompleted = interactable:GetAttribute("Completed")
+	
+	if isCompleted then
+		-- Already completed
 		return
 	end
-
-	if input.KeyCode == Enum.KeyCode.E then
-		if currentTarget and (tick() - lastInteractionTime) > interactionCooldown then
-			lastInteractionTime = tick()
-			interact(currentTarget)
-		end
-	end
-end)
-
-function interact(target: Instance)
-	-- R?cup?rer l'eventId
-	local eventId = target:GetAttribute("EventId")
-	if not eventId then
-		warn("[Interact] Pas d'EventId sur le target")
-		return
-	end
-
-	-- Envoyer au serveur
-	PlayerAction:FireServer("Interact", {
+	
+	-- Send interaction to server
+	PlayerActionRemote:FireServer({
+		action = "interact",
 		eventId = eventId,
+		eventType = eventType,
+		object = interactable,
+		position = player.Character and player.Character:GetPivot().Position or Vector3.zero
 	})
+	
+	print("[Interact] Sent interaction:", eventType or eventId)
+end)
+
+function findInteractable(object: Instance): Model?
+	-- Check if object itself is interactable
+	if object:IsA("Model") or object:IsA("BasePart") then
+		if object:GetAttribute("EventId") or object:GetAttribute("EventType") then
+			return object
+		end
+	end
+	
+	-- Check parent
+	local parent = object.Parent
+	if parent and (parent:IsA("Model") or parent:IsA("BasePart")) then
+		if parent:GetAttribute("EventId") or parent:GetAttribute("EventType") then
+			return parent
+		end
+	end
+	
+	return nil
 end
+
+-- Visual feedback for ProximityPrompts
+ProximityPromptService.PromptButtonHoldBegan:Connect(function(prompt)
+	-- Could add visual effects here
+	local object = prompt.Parent
+	if object and object:IsA("BasePart") then
+		object.BrickColor = BrickColor.new("Bright yellow")
+	end
+end)
+
+ProximityPromptService.PromptButtonHoldEnded:Connect(function(prompt)
+	local object = prompt.Parent
+	if object and object:IsA("BasePart") then
+		-- Reset color
+		task.wait(0.1)
+		if object.Parent then
+			object.BrickColor = BrickColor.new("Medium stone grey")
+		end
+	end
+end)
+
+print("[Interact] Client interaction system loaded")

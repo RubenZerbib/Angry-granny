@@ -1,255 +1,234 @@
 --!strict
--- Serveur de gestion des ?v?nements dynamiques
+-- Server-side event spawning and management with interactive prefabs
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
-local RunService = game:GetService("RunService")
+local CollectionService = game:GetService("CollectionService")
 
 local EventRegistry = require(ReplicatedStorage.Shared.EventRegistry)
-local DecibelServer = require(ServerScriptService.Server.DecibelServer)
+local NightDirector = require(ReplicatedStorage.Shared.NightDirector)
 local Prefabs = require(ServerScriptService.Server.Prefabs)
-local Leaderstats = require(ServerScriptService.Server.Leaderstats)
 
-local EventSpawn = ReplicatedStorage.Remotes.EventSpawn
-local Reward = ReplicatedStorage.Remotes.Reward
+local EventSpawnRemote = ReplicatedStorage.Remotes.EventSpawn
+local PlayerActionRemote = ReplicatedStorage.Remotes.PlayerAction
+local RewardRemote = ReplicatedStorage.Remotes.Reward
 
 local EventsServer = {}
 
--- ?tat des ?v?nements actifs
-local activeEvents: {
-	[string]: {
-		id: string,
-		spec: EventRegistry.EventSpec,
-		spawnTime: number,
-		prefabInstance: Instance?,
-		resolved: boolean,
-		currentStep: number,
-	},
-} = {}
-
-local nextEventId = 1
+local currentNight = 1
+local activeEvents: {[string]: {spec: EventRegistry.EventSpec, instance: Instance?, startTime: number}} = {}
+local playerEventProgress: {[Player]: {[string]: boolean}} = {}
 
 function EventsServer.init()
-	-- Boucle de mise ? jour des ?v?nements
-	RunService.Heartbeat:Connect(function(dt)
-		updateEvents(dt)
-	end)
+	-- Listen to player interactions
+	PlayerActionRemote.OnServerEvent:Connect(handlePlayerAction)
+	print("[EventsServer] Initialized with", #EventRegistry.getAllEvents(), "event types")
 end
 
-function EventsServer.spawn(spec: EventRegistry.EventSpec): string
-	local eventId = "event_" .. tostring(nextEventId)
-	nextEventId = nextEventId + 1
+function EventsServer.startNight(nightNumber: number)
+	currentNight = nightNumber
+	local params = NightDirector.getParamsForNight(nightNumber)
+	
+	print(string.format("[EventsServer] Starting night %d - Budget: %d, MaxConcurrent: %d", 
+		nightNumber, params.eventBudget, params.maxConcurrentEvents))
+	
+	-- Clear previous events
+	clearAllEvents()
+	
+	-- Spawn initial events based on budget
+	spawnEvents(params)
+end
 
-	-- Cr?er le prefab
+function spawnEvents(params)
+	local spawnedCount = 0
+	local attempts = 0
+	local maxAttempts = params.eventBudget * 3
+	
+	while spawnedCount < math.min(params.eventBudget, params.maxConcurrentEvents) and attempts < maxAttempts do
+		attempts += 1
+		
+		-- Pick random event appropriate for this night
+		local event = EventRegistry.getRandomEventForNight(currentNight)
+		
+		if event and not activeEvents[event.id] then
+			local success = spawnEvent(event)
+			if success then
+				spawnedCount += 1
+				print(string.format("[EventsServer] Spawned event: %s (%d/%d)", 
+					event.name, spawnedCount, params.maxConcurrentEvents))
+			end
+		end
+	end
+	
+	print(string.format("[EventsServer] Spawned %d events", spawnedCount))
+end
+
+function spawnEvent(spec: EventRegistry.EventSpec): boolean
+	-- Create the interactive prefab
 	local prefabInstance = Prefabs.createForEvent(spec)
+	
 	if not prefabInstance then
-		warn("[EventsServer] ?chec de cr?ation du prefab pour " .. spec.id)
-		return ""
+		warn("[EventsServer] Failed to create prefab for", spec.id)
+		return false
 	end
-
-	activeEvents[eventId] = {
-		id = eventId,
+	
+	-- Track active event
+	activeEvents[spec.id] = {
 		spec = spec,
-		spawnTime = tick(),
-		prefabInstance = prefabInstance,
-		resolved = false,
-		currentStep = 0,
+		instance = prefabInstance,
+		startTime = tick()
 	}
-
-	-- Pulse initial si d?fini
-	if spec.dbPulse then
-		local position = prefabInstance:IsA("Model") and prefabInstance:GetPivot().Position
-			or prefabInstance:IsA("BasePart") and prefabInstance.Position
-			or nil
-
-		DecibelServer.add(spec.id, spec.dbPulse, {
-			clamp = true,
-			position = position,
-		})
-	end
-
-	-- Notifier clients
-	EventSpawn:FireAllClients({
-		eventId = eventId,
+	
+	-- Notify clients
+	EventSpawnRemote:FireAllClients({
+		eventId = spec.id,
 		eventName = spec.name,
-		position = if prefabInstance:IsA("Model")
-			then prefabInstance:GetPivot().Position
-			elseif prefabInstance:IsA("BasePart") then prefabInstance.Position
-			else Vector3.zero,
-		resolveTime = spec.resolveTimeSec,
+		position = prefabInstance:GetPivot().Position,
+		dbPerSecond = spec.dbPulse
 	})
-
-	return eventId
-end
-
-function updateEvents(dt: number)
-	for eventId, event in pairs(activeEvents) do
-		if event.resolved then
-			continue
+	
+	-- Schedule timeout/auto-fail
+	task.delay(spec.resolveTimeSec, function()
+		if activeEvents[spec.id] and not activeEvents[spec.id].completed then
+			failEvent(spec.id)
 		end
-
-		local elapsed = tick() - event.spawnTime
-
-		-- Appliquer dbTickPerSec
-		if event.spec.dbTickPerSec then
-			local position = if event.prefabInstance and event.prefabInstance:IsA("Model")
-				then event.prefabInstance:GetPivot().Position
-				elseif event.prefabInstance and event.prefabInstance:IsA("BasePart") then event.prefabInstance.Position
-				else nil
-
-			DecibelServer.add(event.spec.id, event.spec.dbTickPerSec * dt, {
-				clamp = true,
-				position = position,
-			})
-		end
-
-		-- V?rifier timeout (?chec)
-		if event.spec.resolveTimeSec and elapsed > event.spec.resolveTimeSec then
-			EventsServer.fail(eventId)
-		end
-	end
-end
-
-function EventsServer.resolve(eventId: string, player: Player?): boolean
-	local event = activeEvents[eventId]
-	if not event or event.resolved then
-		return false
-	end
-
-	-- Incr?menter l'?tape
-	event.currentStep = event.currentStep + 1
-
-	-- V?rifier si r?solu compl?tement
-	local stepsRequired = event.spec.resolveSteps or 1
-	if event.currentStep >= stepsRequired then
-		event.resolved = true
-
-		-- Retirer le prefab
-		if event.prefabInstance then
-			event.prefabInstance:Destroy()
-		end
-
-		-- R?compense
-		if player then
-			Leaderstats.addCoins(player, 5)
-			Reward:FireClient(player, {
-				type = "event_resolved",
-				coins = 5,
-				eventName = event.spec.name,
-			})
-		end
-
-		-- Nettoyer
-		task.delay(1, function()
-			activeEvents[eventId] = nil
-		end)
-
-		return true
-	end
-
-	return false
-end
-
-function EventsServer.fail(eventId: string): boolean
-	local event = activeEvents[eventId]
-	if not event or event.resolved then
-		return false
-	end
-
-	event.resolved = true
-
-	-- Burst de d?cibels
-	if event.spec.failDbBurst then
-		local position = if event.prefabInstance and event.prefabInstance:IsA("Model")
-			then event.prefabInstance:GetPivot().Position
-			elseif event.prefabInstance and event.prefabInstance:IsA("BasePart") then event.prefabInstance.Position
-			else nil
-
-		DecibelServer.add(event.spec.id .. "_fail", event.spec.failDbBurst, {
-			clamp = true,
-			position = position,
-		})
-	end
-
-	-- Retirer le prefab
-	if event.prefabInstance then
-		event.prefabInstance:Destroy()
-	end
-
-	-- Nettoyer
-	task.delay(1, function()
-		activeEvents[eventId] = nil
 	end)
-
+	
 	return true
 end
 
-function EventsServer.getActiveCount(): number
-	local count = 0
-	for _, event in pairs(activeEvents) do
-		if not event.resolved then
-			count = count + 1
+function handlePlayerAction(player: Player, data: {action: string, eventId: string?, eventType: string?, position: Vector3?})
+	if data.action ~= "interact" then return end
+	
+	local eventId = data.eventId or data.eventType
+	if not eventId then return end
+	
+	local eventData = activeEvents[eventId]
+	if not eventData then
+		warn("[EventsServer] Event not found:", eventId)
+		return
+	end
+	
+	-- Validate distance (anti-cheat)
+	if data.position and eventData.instance then
+		local distance = (data.position - eventData.instance:GetPivot().Position).Magnitude
+		if distance > 20 then
+			warn("[EventsServer] Player too far from event:", player.Name, distance)
+			return
 		end
 	end
-	return count
+	
+	-- Mark as completed
+	resolveEvent(eventId, player)
 end
 
-function EventsServer.getActiveEvents(): {
-	{
-		id: string,
-		name: string,
-		position: Vector3,
-		timeRemaining: number?,
-		dbProjection: number,
-	}
-}
-	local result = {}
-
-	for eventId, event in pairs(activeEvents) do
-		if not event.resolved then
-			local position = if event.prefabInstance and event.prefabInstance:IsA("Model")
-				then event.prefabInstance:GetPivot().Position
-				elseif event.prefabInstance and event.prefabInstance:IsA("BasePart") then event.prefabInstance.Position
-				else Vector3.zero
-
-			local timeRemaining = nil
-			if event.spec.resolveTimeSec then
-				local elapsed = tick() - event.spawnTime
-				timeRemaining = math.max(0, event.spec.resolveTimeSec - elapsed)
+function resolveEvent(eventId: string, player: Player)
+	local eventData = activeEvents[eventId]
+	if not eventData then return end
+	
+	eventData.completed = true
+	
+	-- Mark object as completed
+	if eventData.instance then
+		eventData.instance:SetAttribute("Completed", true)
+		
+		-- Disable proximity prompt
+		local prompt = eventData.instance:FindFirstChildOfClass("ProximityPrompt", true)
+		if prompt then
+			prompt.Enabled = false
+		end
+		
+		-- Visual feedback
+		if eventData.instance:IsA("Model") then
+			for _, part in ipairs(eventData.instance:GetDescendants()) do
+				if part:IsA("BasePart") then
+					part.Color = Color3.fromRGB(100, 255, 100)
+				end
 			end
-
-			-- Calculer projection dB (estimation sur 20s)
-			local dbProjection = 0
-			if event.spec.dbTickPerSec then
-				dbProjection = event.spec.dbTickPerSec * 20
-			elseif event.spec.dbPulse then
-				dbProjection = event.spec.dbPulse * 0.5
+		end
+		
+		-- Remove after delay
+		task.delay(3, function()
+			if eventData.instance and eventData.instance.Parent then
+				eventData.instance:Destroy()
 			end
-
-			table.insert(result, {
-				id = eventId,
-				name = event.spec.name,
-				position = position,
-				timeRemaining = timeRemaining,
-				dbProjection = dbProjection,
-			})
+		end)
+	end
+	
+	-- Award coins
+	local coinsEarned = 5
+	local leaderstats = player:FindFirstChild("leaderstats")
+	if leaderstats then
+		local coins = leaderstats:FindFirstChild("Coins")
+		if coins and coins:IsA("IntValue") then
+			coins.Value += coinsEarned
 		end
 	end
-
-	return result
+	
+	-- Notify player
+	RewardRemote:FireClient(player, {
+		type = "event_resolved",
+		eventName = eventData.spec.name,
+		coins = coinsEarned
+	})
+	
+	print(string.format("[EventsServer] Player %s resolved: %s (+%d coins)", 
+		player.Name, eventData.spec.name, coinsEarned))
+	
+	-- Remove from active events
+	activeEvents[eventId] = nil
+	
+	-- Spawn new event to maintain budget
+	local params = NightDirector.getParamsForNight(currentNight)
+	if countActiveEvents() < params.maxConcurrentEvents then
+		local newEvent = EventRegistry.getRandomEventForNight(currentNight)
+		if newEvent and not activeEvents[newEvent.id] then
+			task.delay(2, function()
+				spawnEvent(newEvent)
+			end)
+		end
+	end
 end
 
-function EventsServer.clearAll(): ()
-	for _, event in pairs(activeEvents) do
-		if event.prefabInstance then
-			event.prefabInstance:Destroy()
+function failEvent(eventId: string)
+	local eventData = activeEvents[eventId]
+	if not eventData then return end
+	
+	print("[EventsServer] Event timed out:", eventData.spec.name)
+	
+	-- Clean up
+	if eventData.instance and eventData.instance.Parent then
+		eventData.instance:Destroy()
+	end
+	
+	activeEvents[eventId] = nil
+	
+	-- Could trigger consequences here (e.g., wake Granny)
+end
+
+function clearAllEvents()
+	for eventId, eventData in pairs(activeEvents) do
+		if eventData.instance and eventData.instance.Parent then
+			eventData.instance:Destroy()
 		end
 	end
 	activeEvents = {}
 end
 
-function EventsServer.tryResolve(eventId: string, player: Player): boolean
-	return EventsServer.resolve(eventId, player)
+function countActiveEvents(): number
+	local count = 0
+	for _ in pairs(activeEvents) do
+		count += 1
+	end
+	return count
+end
+
+function EventsServer.getActiveEvents()
+	return activeEvents
+end
+
+function EventsServer.cleanup()
+	clearAllEvents()
 end
 
 return EventsServer
