@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Aftman
+        uses: ok-nick/setup-aftman@v0.4.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install tools
+        run: aftman install
+
+      - name: Check formatting with StyLua
+        run: stylua --check src/ tests/
+
+      - name: Lint with Selene
+        run: selene src/ tests/
+
+  build:
+    runs-on: ubuntu-latest
+    needs: lint-and-format
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Aftman
+        uses: ok-nick/setup-aftman@v0.4.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install tools
+        run: aftman install
+
+      - name: Build with Rojo
+        run: rojo build default.project.json -o build.rbxl
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: build.rbxl
