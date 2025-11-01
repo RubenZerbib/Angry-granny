@@ -63,3 +63,41 @@ function showNotification(text: string, color: Color3)
 		notification:Destroy()
 	end)
 end
+
+-- === Mini Debug HUD ===
+local debugScreen = Instance.new("ScreenGui")
+debugScreen.Name = "DebugHUD"
+debugScreen.ResetOnSpawn = false
+debugScreen.Parent = playerGui
+
+local debugLabel = Instance.new("TextLabel")
+debugLabel.BackgroundTransparency = 0.4
+debugLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+debugLabel.Size = UDim2.new(0, 350, 0, 110)
+debugLabel.Position = UDim2.new(0, 10, 0, 10)
+debugLabel.TextScaled = false
+debugLabel.TextSize = 14
+debugLabel.Font = Enum.Font.RobotoMono
+debugLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+debugLabel.TextXAlignment = Enum.TextXAlignment.Left
+debugLabel.TextYAlignment = Enum.TextYAlignment.Top
+debugLabel.Text = "DEBUG: ON\nGranny: Sleeping\nNight: 1\nWaiting for server..."
+debugLabel.Parent = debugScreen
+
+-- Update debug info from server events
+local grannyState = "Sleeping"
+local currentNight = 1
+
+ReplicatedStorage.Remotes.GrannyState.OnClientEvent:Connect(function(data)
+	if type(data) == "table" and data.state then
+		grannyState = data.state
+	end
+	debugLabel.Text = string.format("DEBUG HUD\nGranny: %s\nNight: %d\nRemotes: OK", grannyState, currentNight)
+end)
+
+ReplicatedStorage.Remotes.NightUpdate.OnClientEvent:Connect(function(data)
+	if type(data) == "table" and data.night then
+		currentNight = data.night
+	end
+	debugLabel.Text = string.format("DEBUG HUD\nGranny: %s\nNight: %d\nRemotes: OK", grannyState, currentNight)
+end)

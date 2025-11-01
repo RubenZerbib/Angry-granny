@@ -1,5 +1,6 @@
 {
-  "name": "GrannyStealth",
+  "name": "AngryGranny",
+  "servePort": 34872,
   "tree": {
     "$className": "DataModel",
     "ReplicatedStorage": {
@@ -8,22 +9,19 @@
         "$path": "src/shared"
       },
       "Remotes": {
+        "$className": "Folder",
         "$path": "src/remotes"
       }
     },
     "ServerScriptService": {
       "$className": "ServerScriptService",
-      "Server": {
-        "$path": "src/server"
-      }
+      "$path": "src/server"
     },
     "StarterPlayer": {
       "$className": "StarterPlayer",
       "StarterPlayerScripts": {
         "$className": "StarterPlayerScripts",
-        "Client": {
-          "$path": "src/client"
-        }
+        "$path": "src/client"
       }
     }
   }

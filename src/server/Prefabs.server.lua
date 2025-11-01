@@ -2,12 +2,56 @@
 -- Cr?ation de prefabs et de la map placeholder
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local CollectionService = game:GetService("CollectionService")
 local EventRegistry = require(ReplicatedStorage.Shared.EventRegistry)
 
 local Prefabs = {}
 
 -- Trouve ou cr?e des anchors dans le workspace
 local anchors: { [string]: BasePart } = {}
+
+local function ensureFolder(name, parent)
+	local f = parent:FindFirstChild(name)
+	if not f then f = Instance.new("Folder"); f.Name = name; f.Parent = parent end
+	return f
+end
+
+function Prefabs.spawnGrannyBed()
+	local anchorsFolder = ensureFolder("EventAnchors", workspace)
+	local bed = anchorsFolder:FindFirstChild("GrannyBedAnchor")
+	if bed then return bed end
+	-- create simple bed anchor
+	bed = Instance.new("Part")
+	bed.Name = "GrannyBedAnchor"
+	bed.Size = Vector3.new(4,1,8)
+	bed.Anchored = true
+	bed.Position = Vector3.new(0,1,0) + Vector3.new(0,0, -20) -- behind player start
+	bed.Material = Enum.Material.Wood
+	bed.Color = Color3.fromRGB(124, 92, 70)
+	bed.Parent = anchorsFolder
+	CollectionService:AddTag(bed, "GrannyBed")
+	return bed
+end
+
+function Prefabs.spawnGranny()
+	local bed = Prefabs.spawnGrannyBed()
+	-- Create a simple Granny model if none provided
+	local model = Instance.new("Model"); model.Name = "Granny"
+	local hrp = Instance.new("Part"); hrp.Name="HumanoidRootPart"; hrp.Size=Vector3.new(2,2,1); hrp.Anchored=false; hrp.Position=bed.Position+Vector3.new(0,3,0); hrp.Parent=model
+	local hum = Instance.new("Humanoid"); hum.Parent=model
+	model.PrimaryPart = hrp
+	model.Parent = workspace
+
+	-- Animation placeholder (sleep)
+	local anim = Instance.new("Animation")
+	anim.Name = "SleepAnim"
+	-- Placeholder asset; dev peut remplacer par un ID custom
+	anim.AnimationId = "rbxassetid://507771019" -- idle lay-ish fallback (replace later)
+	anim.Parent = model
+	local track = hum:LoadAnimation(anim)
+	track:Play()
+	return model
+end
 
 function Prefabs.init()
 	-- Cr?er une map placeholder si aucune map n'existe

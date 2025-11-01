@@ -8,6 +8,7 @@ local RunService = game:GetService("RunService")
 
 local AIParams = require(ReplicatedStorage.Shared.AIParams)
 local DecibelServer = require(ServerScriptService.Server.DecibelServer)
+local Prefabs = require(ServerScriptService.Server.Prefabs)
 
 local GrannyState = ReplicatedStorage.Remotes.GrannyState
 
@@ -26,59 +27,26 @@ local targetPlayer: Player?
 local lastHotspotPosition: Vector3?
 
 function GrannyAI.init()
-	-- Trouver le mod?le de Granny (doit avoir un tag "Granny")
-	for _, obj in ipairs(workspace:GetDescendants()) do
-		if obj:IsA("Model") and obj:HasTag("Granny") then
-			grannyModel = obj
-			grannyHumanoid = obj:FindFirstChildOfClass("Humanoid")
-			break
-		end
+	-- Check if Granny already exists
+	if not grannyModel or not grannyModel.Parent then
+		grannyModel = workspace:FindFirstChild("Granny") or Prefabs.spawnGranny()
 	end
-
-	if not grannyModel then
-		warn("[GrannyAI] Mod?le Granny introuvable, cr?ation d'un placeholder")
-		createPlaceholderGranny()
+	
+	grannyHumanoid = grannyModel:FindFirstChildOfClass("Humanoid")
+	if not grannyHumanoid then
+		warn("[GrannyAI] Granny model has no Humanoid!")
+		return
 	end
 
 	params = AIParams.getForNight(1)
+	currentState = "Sleeping"
+	stateStartTime = tick()
+	notifyClients()
 
 	-- Boucle d'IA
 	RunService.Heartbeat:Connect(function()
 		tick_AI()
 	end)
-end
-
-function createPlaceholderGranny()
-	-- Cr?er un NPC simple
-	grannyModel = Instance.new("Model")
-	grannyModel.Name = "Granny"
-	grannyModel:AddTag("Granny")
-
-	local humanoidRootPart = Instance.new("Part")
-	humanoidRootPart.Name = "HumanoidRootPart"
-	humanoidRootPart.Size = Vector3.new(2, 2, 1)
-	humanoidRootPart.Anchored = false
-	humanoidRootPart.CanCollide = true
-	humanoidRootPart.Position = Vector3.new(0, 10, 0)
-	humanoidRootPart.Parent = grannyModel
-
-	local head = Instance.new("Part")
-	head.Name = "Head"
-	head.Size = Vector3.new(2, 1, 1)
-	head.Position = humanoidRootPart.Position + Vector3.new(0, 1.5, 0)
-	head.Parent = grannyModel
-
-	local humanoid = Instance.new("Humanoid")
-	humanoid.Parent = grannyModel
-
-	grannyModel.Parent = workspace
-	grannyHumanoid = humanoid
-
-	-- Trouver un lit pour Granny
-	local bed = workspace:FindFirstChild("GrannyBed", true)
-	if bed and bed:IsA("BasePart") then
-		humanoidRootPart.Position = bed.Position + Vector3.new(0, 3, 0)
-	end
 end
 
 function GrannyAI.reset(speed: number)
@@ -105,6 +73,14 @@ function GrannyAI.wake()
 end
 
 function GrannyAI.getState(): AIState
+	return currentState
+end
+
+function GrannyAI.GetModel()
+	return grannyModel
+end
+
+function GrannyAI.GetState()
 	return currentState
 end
 
