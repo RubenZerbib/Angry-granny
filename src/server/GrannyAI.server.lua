@@ -8,6 +8,8 @@ local RunService = game:GetService("RunService")
 
 local AIParams = require(ReplicatedStorage.Shared.AIParams)
 local DecibelServer = require(ServerScriptService.Server.DecibelServer)
+local Prefabs = require(ServerScriptService.Server.Prefabs)
+local ManorLoader = require(ServerScriptService.Server.ManorLoader)
 
 local GrannyState = ReplicatedStorage.Remotes.GrannyState
 
@@ -24,61 +26,34 @@ local params: AIParams.GrannyParams
 local stateStartTime = 0
 local targetPlayer: Player?
 local lastHotspotPosition: Vector3?
+local patrolPoints = {}
+local currentPatrolIndex = 1
 
 function GrannyAI.init()
-	-- Trouver le mod?le de Granny (doit avoir un tag "Granny")
-	for _, obj in ipairs(workspace:GetDescendants()) do
-		if obj:IsA("Model") and obj:HasTag("Granny") then
-			grannyModel = obj
-			grannyHumanoid = obj:FindFirstChildOfClass("Humanoid")
-			break
-		end
+	-- Check if Granny already exists
+	if not grannyModel or not grannyModel.Parent then
+		grannyModel = workspace:FindFirstChild("Granny") or Prefabs.spawnGranny()
+	end
+	
+	grannyHumanoid = grannyModel:FindFirstChildOfClass("Humanoid")
+	if not grannyHumanoid then
+		warn("[GrannyAI] Granny model has no Humanoid!")
+		return
 	end
 
-	if not grannyModel then
-		warn("[GrannyAI] Mod?le Granny introuvable, cr?ation d'un placeholder")
-		createPlaceholderGranny()
-	end
+	-- Load patrol points from manor
+	patrolPoints = ManorLoader.getPatrolPoints()
+	print("[GrannyAI] Loaded", #patrolPoints, "patrol points")
 
 	params = AIParams.getForNight(1)
+	currentState = "Sleeping"
+	stateStartTime = tick()
+	notifyClients()
 
 	-- Boucle d'IA
 	RunService.Heartbeat:Connect(function()
 		tick_AI()
 	end)
-end
-
-function createPlaceholderGranny()
-	-- Cr?er un NPC simple
-	grannyModel = Instance.new("Model")
-	grannyModel.Name = "Granny"
-	grannyModel:AddTag("Granny")
-
-	local humanoidRootPart = Instance.new("Part")
-	humanoidRootPart.Name = "HumanoidRootPart"
-	humanoidRootPart.Size = Vector3.new(2, 2, 1)
-	humanoidRootPart.Anchored = false
-	humanoidRootPart.CanCollide = true
-	humanoidRootPart.Position = Vector3.new(0, 10, 0)
-	humanoidRootPart.Parent = grannyModel
-
-	local head = Instance.new("Part")
-	head.Name = "Head"
-	head.Size = Vector3.new(2, 1, 1)
-	head.Position = humanoidRootPart.Position + Vector3.new(0, 1.5, 0)
-	head.Parent = grannyModel
-
-	local humanoid = Instance.new("Humanoid")
-	humanoid.Parent = grannyModel
-
-	grannyModel.Parent = workspace
-	grannyHumanoid = humanoid
-
-	-- Trouver un lit pour Granny
-	local bed = workspace:FindFirstChild("GrannyBed", true)
-	if bed and bed:IsA("BasePart") then
-		humanoidRootPart.Position = bed.Position + Vector3.new(0, 3, 0)
-	end
 end
 
 function GrannyAI.reset(speed: number)
@@ -108,6 +83,14 @@ function GrannyAI.getState(): AIState
 	return currentState
 end
 
+function GrannyAI.GetModel()
+	return grannyModel
+end
+
+function GrannyAI.GetState()
+	return currentState
+end
+
 function tick_AI()
 	if not grannyModel or not grannyHumanoid then
 		return
@@ -121,9 +104,29 @@ function tick_AI()
 	elseif currentState == "Searching" then
 		grannyHumanoid.WalkSpeed = params.speed * 0.7
 
-		-- Aller vers le dernier hotspot
+		-- Use hotspot if available, otherwise patrol
 		if lastHotspotPosition then
 			moveToPosition(lastHotspotPosition)
+			-- Clear hotspot after some time
+			if elapsed > 5 then
+				lastHotspotPosition = nil
+			end
+		elseif #patrolPoints > 0 then
+			-- Patrol between points
+			local targetPoint = patrolPoints[currentPatrolIndex]
+			if targetPoint then
+				moveToPosition(targetPoint.Position)
+				
+				-- Check if reached point
+				local distance = (grannyModel:GetPivot().Position - targetPoint.Position).Magnitude
+				if distance < 5 then
+					-- Move to next patrol point
+					currentPatrolIndex = currentPatrolIndex + 1
+					if currentPatrolIndex > #patrolPoints then
+						currentPatrolIndex = 1
+					end
+				end
+			end
 		end
 
 		-- Chercher un joueur visible
