@@ -1,134 +1,155 @@
-# ?? Quick Start - Angry Granny Manor
+# ? Quick Start - Angry Granny Manor
 
-## Start Playing in 3 Steps
+## ?? D?marrage rapide (5 minutes)
 
-### 1. Start Rojo Server
+### 1. Ouvrir dans Studio
 ```bash
-cd /workspace
 rojo serve
 ```
+Puis dans Roblox Studio:
+- Plugins ? Rojo ? Connect
+- Cliquez "Sync In"
 
-### 2. Connect in Studio
-1. Open **Roblox Studio**
-2. Click **Plugins** ? **Rojo** ? **Connect**
-3. Should connect to `localhost:34872`
-4. Wait for sync to complete
+### 2. Cr?er le manoir minimal
 
-### 3. Play!
-- Press **F5** or click **Play Solo**
-- You spawn in the **Entryway**
-- Press **1** to equip your flashlight
-- **Explore and complete tasks!**
-
----
-
-## What You'll See
-
-### Spawning
-- You start in a dark manor entrance
-- Debug HUD in top-left shows: `Granny: Sleeping`
-- Flashlight appears in your inventory
-
-### Exploring
-- **16 rooms** to discover
-- Dark Gothic atmosphere with fog
-- Room lights provide some visibility
-- Stairs lead to 2nd floor
-
-### Tasks
-- Walk near glowing objects
-- **ProximityPrompt** appears
-- **Hold E** to complete task
-- Object turns **green** when done
-- **+5 Coins** earned
-
----
-
-## Controls
-
-| Key | Action |
-|-----|--------|
-| WASD | Move |
-| Space | Jump |
-| Mouse | Look around |
-| 1 | Equip flashlight |
-| E | Hold to interact (when prompted) |
-
----
-
-## First Task Tutorial
-
-1. **Find the living room** (connected to entryway)
-2. Look for a **window with open shutters**
-3. Walk close until you see: **"Close Shutters"**
-4. **Hold E** for 2 seconds
-5. Shutters close, object turns green
-6. **+5 Coins!**
-
----
-
-## Troubleshooting
-
-### "Can't see anything!"
-? Press **1** to equip flashlight, or increase `Lighting.Brightness` in `Init.server.lua`
-
-### "No tasks spawn"
-? Wait 3 seconds after game starts. Check Output for errors.
-
-### "Granny doesn't appear"
-? Go upstairs to GrannyBedroom (far left on floor 2)
-
-### "Game crashes"
-? Check **Output** window in Studio for errors. Make sure all files synced via Rojo.
-
----
-
-## Map Guide
+Dans l'explorateur de Studio, cr?ez dans **Workspace**:
 
 ```
-GROUND FLOOR:
-Storage ? DiningRoom ? Library ? Nursery
-            ?            ?
-        LivingRoom ???????
-            ?            ?
-        Entryway ??? Kitchen ??? Study
-        [YOU START HERE]
-
-UPSTAIRS (via stairs):
-GrannyBedroom ? Bedroom2 ? Bedroom3
-[GRANNY!]         ?
-               Hallway ??? GuestRoom
-                  ?
-              Bathroom2
+Workspace/
+?? Manor (Model)
+   ?? PlayerSpawn (Part)
+   ?  ?? Position: 0, 6, 0
+   ?     Anchored: true
+   ?     CanCollide: false
+   ?     Transparency: 1
+   ?
+   ?? GrannySpawn (Part)
+   ?  ?? Position: 0, -4, 0
+   ?     Anchored: true
+   ?     CanCollide: false
+   ?     Transparency: 1
+   ?
+   ?? PatrolPoint_1 (Part)
+   ?  ?? Position: 0, 3, 0
+   ?
+   ?? PatrolPoint_2 (Part)
+   ?  ?? Position: -15, 3, 0
+   ?
+   ?? PatrolPoint_3 (Part)
+   ?  ?? Position: 15, 3, 0
+   ?
+   ?? PatrolPoint_4 (Part)
+      ?? Position: 0, 3, -15
 ```
 
+**Toutes les Parts de patrol doivent avoir:**
+- Anchored = true
+- CanCollide = false  
+- Transparency = 1 (invisibles)
+- Size = (1, 1, 1)
+
+### 3. Ajouter un sol simple
+
+Dans **Manor**, cr?ez:
+```
+Floor (Part)
+?? Size: 60, 1, 60
+?? Position: 0, 0, 0
+?? Anchored: true
+?? Material: WoodPlanks
+?? Color: Brown
+```
+
+### 4. Play!
+
+Appuyez sur **Play** dans Studio. Vous devriez voir dans Output:
+```
+[ManorLoader] ? Manor found! Indexing...
+[ManorLoader] ? Loaded: 1 rooms, 4 patrol points, 0 hiding spots
+[GrannyAI] Loaded 4 patrol points
+[SERVER] ? Init complete! Manor generated, Granny sleeping, ready to play!
+```
+
+**Le jeu fonctionne!** ??
+
 ---
 
-## Next Steps
+## ?? Que faire maintenant?
 
-1. **Explore all 16 rooms**
-2. **Complete 5+ tasks** to earn coins
-3. **Go upstairs** and peek at Granny (she's sleeping!)
-4. **Survive the night** (3.5 minutes)
-5. **Read GAMEPLAY_GUIDE.md** for advanced tips
+### Test 1: Faire du bruit
+- Courez (Shift) dans le manoir
+- Observez l'indicateur de d?cibels en haut ? droite
+- Quand il atteint 80dB, Granny se r?veille!
+
+### Test 2: Observer Granny
+- Elle patrouille entre vos 4 patrol points
+- Elle vous cherche pendant 30 secondes
+- Si elle ne trouve personne, elle retourne au lit
+
+### Test 3: Compl?ter une t?che
+- Attendez 10-15 secondes
+- Une t?che appara?t (Window, Clock, Door, etc.)
+- Approchez-vous et maintenez [E]
+- +50 coins!
 
 ---
 
-## Files to Read
+## ?? Pour aller plus loin
 
-- **GAMEPLAY_GUIDE.md** - Complete gameplay mechanics
-- **PLAYABLE_GAME_SUMMARY.md** - Implementation overview
-- **BUILD_INSTRUCTIONS.md** - How to build and publish
+### Construire un vrai manoir
+Lisez `MANOR_IMPORT_GUIDE.md` pour:
+- Cr?er plusieurs pi?ces (Hall, Kitchen, Bedrooms...)
+- Ajouter des murs et des plafonds
+- Installer des lampes automatiques
+- Placer 12+ patrol points
+- Ajouter des hiding spots et keys
+
+### Personnaliser le gameplay
+Modifiez `src/shared/AIParams.lua`:
+```lua
+speed = 20,           -- Vitesse de Granny
+visionRange = 40,     -- Distance de vision
+searchDuration = 30,  -- Dur?e de recherche
+```
+
+### Ajouter du contenu
+- Nouvelle t?che: ?ditez `src/server/InteractivePrefabs.server.lua`
+- Nouvel item: ?ditez `src/shared/ItemCatalog.lua`
+- Nouvelle m?canique: Cr?ez un nouveau server script
 
 ---
 
-## Having Fun?
+## ? Checklist minimum viable
 
-Customize your experience:
-- Add more rooms in `ManorGenerator.server.lua`
-- Create new tasks in `InteractivePrefabs.server.lua`  
-- Adjust difficulty in `Config.lua`
-- Add sound effects
-- Improve Granny's model
+- [ ] Model `Manor` dans Workspace
+- [ ] Part `PlayerSpawn` (o? le joueur spawn)
+- [ ] Part `GrannySpawn` (o? Granny spawn)
+- [ ] 3-4 Parts `PatrolPoint_X` (pour la patrouille)
+- [ ] Un sol (Part avec CanCollide=true)
+- [ ] Rojo connect? et synchronis?
+- [ ] Game lanc? avec Play
 
-**Enjoy exploring the manor!** ????
+**Une fois ces 7 ?l?ments OK, le jeu fonctionne! ??**
+
+---
+
+## ?? Aide rapide
+
+### Erreur: "Manor not found"
+? V?rifiez le nom exact: `Manor` (M majuscule)
+
+### Erreur: "Granny model has no Humanoid"
+? Attendez 5 secondes, Granny est en train de spawn
+
+### Granny ne bouge pas
+? V?rifiez que PatrolPoint_X sont dans Manor (pas ailleurs)
+
+### Joueur tombe dans le vide
+? Cr?ez un Floor (Part) ? Y=0 avec CanCollide=true
+
+---
+
+**Temps estim?: 5-10 minutes ?**
+
+Pour un manoir complet avec 10+ pi?ces: `MANOR_IMPORT_GUIDE.md`  
+Pour comprendre l'int?gration: `MANOR_INTEGRATION_COMPLETE.md`
