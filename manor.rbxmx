@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<roblox version="4">
+  <Meta name="ExplicitAutoJoints">true</Meta>
+  <Item class="Model" referent="RBX7B12D0DBBFE749A9">
+    <Properties>
+      <string name="Name">Manor</string>
+    </Properties>
+    <Item class="Part" referent="RBXE3956EAD3FF34F00">
+      <Properties>
+        <string name="Name">PlayerSpawn</string>
+        <bool name="Anchored">true</bool>
+        <bool name="CanCollide">false</bool>
+        <float name="Transparency">1.0</float>
+        <token name="Material">Neon</token>
+        <CoordinateFrame name="CFrame">0, 6, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1</CoordinateFrame>
+        <Color3uint8 name="Color3uint8">163, 162, 165</Color3uint8>
+      </Properties>
+      <Properties>
+        <Vector3 name="Size">
+          <X>1</X>
+          <Y>1</Y>
+          <Z>1</Z>
+        </Vector3>
+      </Properties>
+    </Item>
+    <Item class="Part" referent="RBX02D995311D994204">
+      <Properties>
+        <string name="Name">GrannySpawn</string>
+        <bool name="Anchored">true</bool>
+        <bool name="CanCollide">false</bool>
+        <float name="Transparency">1.0</float>
+        <token name="Material">Neon</token>
+        <CoordinateFrame name="CFrame">0, -4, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1</CoordinateFrame>
+        <Color3uint8 name="Color3uint8">163, 162, 165</Color3uint8>
+      </Properties>
+      <Properties>
+        <Vector3 name="Size">
+          <X>1</X>
+          <Y>1</Y>
+          <Z>1</Z>
+        </Vector3>
+      </Properties>
+    </Item>
+    <Item class="Part" referent="RBXD06807D5D6F444C5">
+      <Properties>
+        <string name="Name">EscapeExit</string>
+        <bool name="Anchored">true</bool>
+        <bool name="CanCollide">false</bool>
+        <float name="Transparency">1.0</float>
+        <token name="Material">Neon</token>
+        <CoordinateFrame name="CFrame">0, 1, 17, 1, 0, 0, 0, 1, 0, 0, 0, 1</CoordinateFrame>
+        <Color3uint8 name="Color3uint8">163, 162, 165</Color3uint8>
+      </Properties>
+      <Properties>
+        <Vector3 name="Size">
+          <X>1</X>
+          <Y>1</Y>
+          <Z>1</Z>
+        </Vector3>
+      </Properties>
+    </Item>
+    </roblox>

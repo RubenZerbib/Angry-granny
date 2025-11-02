@@ -1,11 +1,11 @@
 --!strict
--- Prefabs: Integrates ManorGenerator and InteractivePrefabs
+-- Prefabs: Integrates ManorLoader and InteractivePrefabs
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local CollectionService = game:GetService("CollectionService")
 local ServerScriptService = game:GetService("ServerScriptService")
 
-local ManorGenerator = require(script.Parent.ManorGenerator)
+local ManorLoader = require(script.Parent.ManorLoader)
 local InteractivePrefabs = require(script.Parent.InteractivePrefabs)
 local EventRegistry = require(ReplicatedStorage.Shared.EventRegistry)
 
@@ -13,38 +13,58 @@ local Prefabs = {}
 
 local manorModel
 local rooms = {}
+local spawns = {}
 local anchors: { [string]: BasePart } = {}
 
 function Prefabs.init()
-	print("[Prefabs] Generating manor...")
-	manorModel, rooms = ManorGenerator.generateManor()
+	print("[Prefabs] Loading manor from workspace...")
+	manorModel, rooms = ManorLoader.loadManor()
+	spawns = ManorLoader.getSpawns()
 	
 	-- Index all event anchors
 	for roomName, roomData in pairs(rooms) do
-		local anchor = roomData.model:FindFirstChild(roomName .. "Anchor")
+		local anchor = roomData.model:FindFirstChild("EventAnchor")
 		if anchor then
 			anchors[roomName] = anchor
 		end
 	end
 	
-	print("[Prefabs] Manor generated with", #workspace.Manor:GetChildren(), "rooms")
+	print("[Prefabs] Manor loaded with", getTableSize(rooms), "rooms")
+end
+
+function getTableSize(t)
+	local count = 0
+	for _ in pairs(t) do count = count + 1 end
+	return count
 end
 
 function Prefabs.spawnGrannyBed()
-	-- Granny's bed is already in GrannyBedroom from ManorGenerator
-	local grannyRoom = rooms["GrannyBedroom"]
-	if grannyRoom then
-		local bed = grannyRoom.model:FindFirstChild("GrannyBed")
-		if bed then
-			return bed
-		end
+	-- Check if Granny bed already exists
+	local bed = workspace:FindFirstChild("GrannyBed", true)
+	if bed then
+		return bed
 	end
 	
-	-- Fallback: create bed
-	local bed = Instance.new("Part")
+	-- Use GrannySpawn position if available
+	local grannySpawn = spawns["GrannySpawn"]
+	if grannySpawn then
+		bed = Instance.new("Part")
+		bed.Name = "GrannyBed"
+		bed.Size = Vector3.new(6, 2, 8)
+		bed.Position = grannySpawn.Position + Vector3.new(0, 1, 0)
+		bed.Anchored = true
+		bed.Material = Enum.Material.Fabric
+		bed.Color = Color3.fromRGB(124, 92, 70)
+		CollectionService:AddTag(bed, "GrannyBed")
+		bed.Parent = workspace
+		return bed
+	end
+	
+	-- Fallback: create at basement
+	bed = Instance.new("Part")
 	bed.Name = "GrannyBed"
 	bed.Size = Vector3.new(6, 2, 8)
-	bed.Position = Vector3.new(10, 16, 10)
+	bed.Position = Vector3.new(0, -8, 0)
 	bed.Anchored = true
 	bed.Material = Enum.Material.Fabric
 	bed.Color = Color3.fromRGB(124, 92, 70)
@@ -128,14 +148,27 @@ function Prefabs.createForEvent(spec: EventRegistry.EventSpec): Instance?
 	local roomData = rooms[roomName]
 	
 	if not roomData then
-		warn("[Prefabs] No appropriate room found for event:", spec.id)
+		-- Try any room
+		for name, data in pairs(rooms) do
+			roomData = data
+			roomName = name
+			break
+		end
+	end
+	
+	if not roomData then
+		warn("[Prefabs] No rooms available for event:", spec.id)
 		return nil
 	end
 	
-	local anchor = anchors[roomName]
+	local anchor = anchors[roomName] or roomData.model:FindFirstChild("EventAnchor")
 	if not anchor then
-		warn("[Prefabs] No anchor found in room:", roomName)
-		return nil
+		-- Use room center
+		anchor = Instance.new("Part")
+		anchor.Position = roomData.position
+		anchor.Anchored = true
+		anchor.Transparency = 1
+		anchor.CanCollide = false
 	end
 	
 	-- Create specific prefab based on event type
@@ -152,25 +185,25 @@ function Prefabs.createForEvent(spec: EventRegistry.EventSpec): Instance?
 end
 
 function getAppropriateRoom(eventId: string): string
-	-- Map event types to appropriate rooms
+	-- Map event types to appropriate rooms from the manor
 	if string.find(eventId, "baby") or string.find(eventId, "crib") then
-		return "Nursery"
+		return "Bedroom_A" -- Has bed, good for baby
 	elseif string.find(eventId, "window") or string.find(eventId, "shutter") then
-		local windowRooms = {"LivingRoom", "Bedroom2", "Bedroom3", "Study"}
+		local windowRooms = {"Bedroom_A", "Bedroom_B", "Hall"}
 		return windowRooms[math.random(1, #windowRooms)]
 	elseif string.find(eventId, "clock") then
-		return math.random() > 0.5 and "Library" or "LivingRoom"
+		return math.random() > 0.5 and "Hall" or "DiningRoom"
 	elseif string.find(eventId, "phone") then
-		local phoneRooms = {"Study", "LivingRoom", "Entryway"}
+		local phoneRooms = {"Hall", "Kitchen", "DiningRoom"}
 		return phoneRooms[math.random(1, #phoneRooms)]
 	elseif string.find(eventId, "radio") then
-		return "LivingRoom"
+		return "Hall"
 	elseif string.find(eventId, "door") then
-		local doorRooms = {"Hallway2F", "Storage", "Bathroom"}
+		local doorRooms = {"Corridors", "Bathroom", "SecretPassage"}
 		return doorRooms[math.random(1, #doorRooms)]
 	else
 		-- Random room
-		local allRooms = {"LivingRoom", "Kitchen", "Library", "Study", "DiningRoom"}
+		local allRooms = {"Hall", "Kitchen", "DiningRoom", "Bedroom_A", "Bedroom_B"}
 		return allRooms[math.random(1, #allRooms)]
 	end
 end
@@ -180,9 +213,9 @@ function createInteractivePrefab(spec: EventRegistry.EventSpec, position: Vector
 	
 	-- Adjust position to be inside room (not exactly at center)
 	local offset = Vector3.new(
-		math.random(-5, 5),
+		math.random(-4, 4),
 		1,
-		math.random(-5, 5)
+		math.random(-4, 4)
 	)
 	local prefabPos = position + offset
 	
@@ -235,6 +268,10 @@ end
 
 function Prefabs.getAnchors()
 	return anchors
+end
+
+function Prefabs.getSpawns()
+	return spawns
 end
 
 return Prefabs
